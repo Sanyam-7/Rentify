@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rentify - <%= listing.title %></title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        strong {
+            font-weight: bold;
+        }
+        .listing-image {
+            text-align: center;
+        }
+        .listing-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+        .actions {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .actions button,
+        .actions a {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            display: inline-block; /* Ensure they are displayed inline */
+        }
+        .actions button {
+            background-color: #dc3545;
+            color: #fff;
+        }
+        .actions button:hover {
+            background-color: #c82333;
+        }
+        .actions a {
+            background-color: #007bff;
+            color: #fff;
+        }
+        .actions a:hover {
+            background-color: #0056b3;
+            text-decoration: none;
+        }
+        .back-link {
+            margin-top: 2%;
+            margin-left: 10px; /* Add margin to separate from previous button */
+        }
+        .review-form {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+        .review-form label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        .review-form textarea {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+        }
+        .review-form input[type="number"] {
+            width: 60px;
+            padding: 8px;
+            font-size: 14px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+        }
+        .review-form button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            background-color: #007bff;
+            color: #fff;
+            transition: background-color 0.3s ease;
+        }
+        .review-form button:hover {
+            background-color: #0056b3;
+        }
+        .review {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+        .review p {
+            margin-bottom: 5px;
+        }
+        .review .rating {
+            font-weight: bold;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Listing Details</h1>
+        <ul>
+            <li><strong>Title:</strong> <%= listing.title %></li>
+            <li><strong>Description:</strong> <%= listing.description %></li>
+            <li><strong>Price:</strong> &#8377; <%= listing.price.toLocaleString("en-IN") %></li>
+            <li><strong>Location:</strong> <%= listing.location %></li>
+            <li><strong>Country:</strong> <%= listing.country %></li>
+            <li class="listing-image">
+                <strong>Image:</strong>
+                <% if (listing.image) { %>
+                    <img src="<%= listing.image %>" alt="<%= listing.title %>">
+                <% } else { %>
+                    <p>No image available</p>
+                <% } %>
+            </li>
+        </ul>
+        <div class="actions">
+            <a href="/listings/<%= listing._id %>/edit">Edit</a>
+            <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE" style="display: inline-block;">
+                <button type="submit">Delete Listing</button>
+            </form>
+            <br>
+            <a href="/listings" class="back-link">Back to Listings</a>
+        </div>
+
+        <!-- Review Form -->
+        <div class="review-form">
+            <h2>Add a Review</h2>
+            <form method="POST" action="/listings/<%= listing._id %>/reviews">
+                <label for="comment">Comment:</label><br>
+                <textarea id="comment" name="comment" rows="4" required></textarea><br><br>
+
+                <label for="rating">Rating (3-5):</label><br>
+                <input type="number" id="rating" name="rating" min="3" max="5" required><br><br>
+
+                <button type="submit">Submit Review</button>
+            </form>
+        </div>
+
+        <!-- Display All Reviews -->
+        <h4>All Reviews</h4>
+        <% if (listing.reviews.length > 0) { %>
+            <% listing.reviews.forEach((review) => { %>
+                <div class="review">
+                    <p><strong>Rating:</strong> <span class="rating"><%= review.rating %></span></p>
+                    <p><strong>Comment:</strong> <%= review.comment %></p>
+                    <p><strong>Posted At:</strong> <%= review.createdAt ? review.createdAt.toLocaleString() : 'N/A' %></p>
+                </div>
+            <% }); %>
+        <% } else { %>
+            <p>No reviews available.</p>
+        <% } %>
+    </div>
+</body>
+</html>

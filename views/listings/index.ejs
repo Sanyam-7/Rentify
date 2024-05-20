@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rentify</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        padding: 20px;
+      }
+      .navbar {
+      background-color: #007bff;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar-brand {
+      color: #fff;
+      font-size: 24px;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .navbar-brand:hover {
+      color: #f8f9fa;
+      text-decoration: none;
+    }
+
+    .navbar-links ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+    }
+
+    .navbar-links ul li {
+      margin-right: 20px;
+    }
+
+    .navbar-links ul li a {
+      color: #020202;
+      text-decoration: none;
+      font-size: 18px;
+      transition: color 0.3s ease;
+    }
+
+    .navbar-links ul li a:hover {
+      color: #151515;
+      text-decoration: none;
+    }
+
+    .create-listing-link {
+      padding: 10px 20px;
+      background-color: #fff;
+      color: #007bff;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .create-listing-link:hover {
+      background-color: #0056b3;
+      color: #fff;
+      text-decoration: none;
+    }
+    .create-listing-link {
+      padding: 10px 20px;
+      background-color: #fff;
+      color: #007bff;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .create-listing-link:hover {
+      background-color: #0056b3;
+      color: #fff;
+      text-decoration: none;
+    }
+      h1 {
+        text-align: center;
+        color: #007bff;
+      }
+      ul {
+        list-style-type: none;
+        padding: 0;
+      }
+      li {
+        background-color: #fff;
+        margin-bottom: 10px;
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+      li img {
+        width: 100%;
+        height: 500px;
+        border-radius: 5px;
+        margin-bottom: 10px;
+      }
+      .listing-title {
+        font-size: 18px;
+        font-weight: bold;
+        color: #333;
+        text-decoration: none;
+      }
+      .listing-title:hover {
+        color: #007bff;
+      }
+      .create-listing-link {
+        display: inline-block;
+        margin-top: 10px;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 5px;
+      }
+      .create-listing-link:hover {
+        background-color: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="navbar">
+        <a href="/" class="navbar-brand">Rentify</a>
+        <div class="navbar-links">
+          <ul>
+            <li><a href="/listings" class="nav-link">All Rentals</a></li>
+            <li><a href="/listings/new" class="nav-link">Create New Listing</a></li>
+            <!-- Add more navigation links as needed -->
+          </ul>
+        </div>
+      </div>
+    <ul>
+      <% for(let listing of allListings) { %>
+      <li>
+        <a href="/listings/<%= listing._id %>" class="listing-title">
+          <% if (listing.image) { %>
+          <img
+            src="<%= listing.image %>"
+            alt="<%= listing.title %>"
+          />
+          <% } else { %>
+          <p>No image available</p>
+          <% } %> <%= listing.title %>
+        </a>
+      </li>
+      <% } %>
+    </ul>
+    
+  </body>
+</html>
