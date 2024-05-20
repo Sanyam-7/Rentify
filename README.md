@@ -67,7 +67,16 @@ Rentify is a web application for listing and reviewing rental properties. Users 
 - EJS
 - Passport.js
 
-
+## Dependencies
+- Express: Fast, unopinionated, minimalist web framework for Node.js.
+- Mongoose: MongoDB object modeling tool designed to work in an asynchronous environment.
+- EJS: Embedded JavaScript templates for rendering HTML pages in Express.
+- Passport: Simple, unobtrusive authentication middleware for Node.js.
+- passport-local: Passport strategy for authenticating with a username and password.
+- passport-local-mongoose: Passport plugin that simplifies building username and password login with Mongoose    models.
+- express-session: Session middleware for Express.
+- morgan: HTTP request logger middleware for Node.js.
+- cookie-parser: Parse HTTP request cookies.
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
