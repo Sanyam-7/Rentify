@@ -1,17 +1,17 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const methodOverride = require("method-override");
-const Mongo_URL = "mongodb://127.0.0.1/rentify";
 const Listing = require("./models/listing");
 const Review = require("./models/review");
 const User = require("./models/user"); // Ensure this is correctly imported
 const path = require("path");
 const localStrategy = require("passport-local");
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-const session = require('express-session');
-const passport = require('passport');
+var cookieParser = require("cookie-parser");
+var logger = require("morgan");
+const session = require("express-session");
+const passport = require("passport");
 
 // Use the correct variable for passport local strategy
 passport.use(new localStrategy(User.authenticate()));
@@ -25,16 +25,18 @@ main()
   });
 
 async function main() {
-  await mongoose.connect(Mongo_URL);
+  await mongoose.connect(process.env.MONGO_URL);
 }
 
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
-app.use(session({
-  secret: 'yourSecretKey', // Replace with your own secret
-  resave: false,
-  saveUninitialized: false
-}));
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "ejs");
+app.use(
+  session({
+    secret: "yourSecretKey", // Replace with your own secret
+    resave: false,
+    saveUninitialized: false,
+  })
+);
 
 // Passport initialization
 app.use(passport.initialize());
@@ -46,16 +48,15 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser(async (id, done) => {
-    try {
-      const user = await User.findById(id);
-      done(null, user);
-    } catch (err) {
-      done(err, null);
-    }
-  });
-  
+  try {
+    const user = await User.findById(id);
+    done(null, user);
+  } catch (err) {
+    done(err, null);
+  }
+});
 
-app.use(logger('dev'));
+app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -218,6 +219,8 @@ app.get("/listings/:id", async (req, res) => {
   }
 });
 
-app.listen(3000, () => {
-  console.log("Server is running on port 3000");
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port:${PORT}`);
 });
