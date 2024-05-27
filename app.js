@@ -78,7 +78,7 @@ app.post("/register", function (req, res, next) {
 
   User.register(data, req.body.password).then(function () {
     passport.authenticate("local")(req, res, function () {
-      res.redirect("/login");
+      res.redirect("/");
     });
   });
 });
